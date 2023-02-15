@@ -10,13 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_11_021958) do
+ActiveRecord::Schema.define(version: 2023_02_15_080911) do
 
   create_table "cards", force: :cascade do |t|
     t.string "name"
     t.string "image"
     t.string "rarity"
     t.string "set"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string "code"
+    t.integer "card_id"
+    t.integer "player_id"
+    t.index ["card_id"], name: "index_games_on_card_id"
+    t.index ["player_id"], name: "index_games_on_player_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string "name"
+    t.integer "currency"
+    t.integer "card_id"
+    t.index ["card_id"], name: "index_players_on_card_id"
   end
 
 end
