@@ -1,4 +1,5 @@
 class Card < ApplicationRecord
-    belongs_to :player
-    belongs_to :game
+    # belongs_to :player
+    # belongs_to :game
+    has_many :bids
 end
