@@ -1,13 +1,16 @@
 class CardSerializer
-    def self.format_cards(cards)
+    def self.format_cards(cards,game)
     {
-      cards: {
-        cards.map do |card|
+      "gameId": game.id,
+      "cards": 
+     
+      cards.map do |card|
             {
-                name: card.name,
-                image: card.image
+                "id": card.id,
+                "image": card.image
             }
         end
+    
     }
-}
+end
 end

@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2023_02_16_063722) do
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.integer "currency"
+    t.string "uuid"
     t.integer "card_id"
     t.integer "game_id"
     t.integer "bid_id"
