@@ -10,7 +10,6 @@ class CardSerializer
                 "image": card.image
             }
         end
-    
     }
 end
 end

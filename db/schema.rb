@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_16_063722) do
+ActiveRecord::Schema.define(version: 2023_03_28_005005) do
 
   create_table "bids", force: :cascade do |t|
     t.integer "value"
@@ -27,25 +27,35 @@ ActiveRecord::Schema.define(version: 2023_02_16_063722) do
     t.string "set"
     t.integer "game_id"
     t.integer "bid_id"
+    t.integer "player_id"
     t.index ["bid_id"], name: "index_cards_on_bid_id"
     t.index ["game_id"], name: "index_cards_on_game_id"
+    t.index ["player_id"], name: "index_cards_on_player_id"
   end
 
   create_table "games", force: :cascade do |t|
     t.string "code"
+    t.integer "cards_handled", default: 0
     t.integer "card_id"
     t.integer "player_id"
     t.index ["card_id"], name: "index_games_on_card_id"
     t.index ["player_id"], name: "index_games_on_player_id"
   end
 
+  create_table "games_players", id: false, force: :cascade do |t|
+    t.integer "game_id", null: false
+    t.integer "player_id", null: false
+    t.index ["game_id"], name: "index_games_players_on_game_id"
+    t.index ["player_id"], name: "index_games_players_on_player_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.string "name"
     t.integer "currency"
     t.string "uuid"
-    t.integer "card_id"
     t.integer "game_id"
     t.integer "bid_id"
+    t.integer "card_id"
     t.index ["bid_id"], name: "index_players_on_bid_id"
     t.index ["card_id"], name: "index_players_on_card_id"
     t.index ["game_id"], name: "index_players_on_game_id"

@@ -1,6 +1,6 @@
 class Game < ApplicationRecord
   has_many :cards
-  has_many :players
+  has_and_belongs_to_many :players
   before_create :code_create
   after_create :card_create
 
