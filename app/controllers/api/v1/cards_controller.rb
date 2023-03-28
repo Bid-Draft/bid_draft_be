@@ -7,8 +7,8 @@ class Api::V1::CardsController < ApplicationController
     def index
         game = Game.find(params[:id])
         cards = Game.find(params[:id]).cards
-        
-        render json: CardSerializer.format_cards(cards[0..2],game)   
+
+        render json: CardSerializer.format_cards(cards[game.cards_handled..game.cards_handled+2],game)   
     end
 
 end

@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2023_03_28_005005) do
 
   create_table "players", force: :cascade do |t|
     t.string "name"
-    t.integer "currency"
+    t.integer "currency", default: 300
     t.string "uuid"
     t.integer "game_id"
     t.integer "bid_id"
