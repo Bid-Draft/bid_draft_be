@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 2023_03_28_005005) do
   create_table "games", force: :cascade do |t|
     t.string "code"
     t.integer "cards_handled", default: 0
+    t.integer "last_card_id_sent"
+    t.integer "times_last_card_sent"
     t.integer "card_id"
     t.integer "player_id"
     t.index ["card_id"], name: "index_games_on_card_id"

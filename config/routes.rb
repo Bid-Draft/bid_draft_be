@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post 'game', to: 'games#create'
       get 'game', to: 'games#show'
       post 'bids', to: 'bids#create'
+      get 'bids', to: 'bids#index'
     end
   end
 end

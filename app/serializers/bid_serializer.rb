@@ -7,6 +7,7 @@ class BidSerializer
         if data[:complete]
       data[:bids].map do |bid|
             {   
+                card_id: bid.card_id,
                 tied: bid.tied,
                 winner_uuid:bid.winner_uuid, 
                 loser_uuid:bid.loser_uuid, 
@@ -19,4 +20,9 @@ class BidSerializer
         end
     }
 end
+    def self.serialize_index(data)
+        {
+      "complete": data[:complete]
+        }
+    end
 end
