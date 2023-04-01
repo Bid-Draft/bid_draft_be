@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2023_03_28_005005) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "bids", force: :cascade do |t|
     t.integer "value"
     t.integer "card_id"
@@ -45,8 +48,8 @@ ActiveRecord::Schema.define(version: 2023_03_28_005005) do
   end
 
   create_table "games_players", id: false, force: :cascade do |t|
-    t.integer "game_id", null: false
-    t.integer "player_id", null: false
+    t.bigint "game_id", null: false
+    t.bigint "player_id", null: false
     t.index ["game_id"], name: "index_games_players_on_game_id"
     t.index ["player_id"], name: "index_games_players_on_player_id"
   end
