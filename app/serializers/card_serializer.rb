@@ -7,7 +7,8 @@ class CardSerializer
       cards.map do |card|
             {
                 "id": card.id,
-                "image": card.image
+                "image": card.image,
+                "name": card.name
             }
         end
     }

@@ -38,8 +38,8 @@ class BidFacade
 
     def self.check_bids(data)
         game = Game.find(data.to_i)
-
-        if game.cards[game.cards_handled-1].id == game.last_card_id_sent && game.times_last_card_sent > 1 || game.cards[game.cards_handled-3].bids.length < 2
+        # if game.cards[game.cards_handled-1].id == game.last_card_id_sent && game.times_last_card_sent > 1 || game.cards[game.cards_handled-3].bids length < 2
+        if game.cards[game.cards_handled-3].bids.length < 2
             return {complete: false }
         else 
             bids = BidFacade.get_bids(game)
@@ -49,6 +49,7 @@ class BidFacade
 
     def self.get_bids(game)
         completed_bids = []
+
         game.cards[game.cards_handled-3..game.cards_handled-1].each do |card|
             completed_bid = CompletedBid.new(
                                                 card_id: card.id,
