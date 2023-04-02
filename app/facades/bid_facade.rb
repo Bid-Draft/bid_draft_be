@@ -5,9 +5,12 @@ class BidFacade
         unless player.games.ids.include?(game.id)
            player.games << game
         end
-        bid1 = Bid.create!(card_id: game.cards[game.cards_handled].id, player_id: player.id, value: data["bid1"])
-        bid2 = Bid.create!(card_id: game.cards[game.cards_handled+1].id, player_id: player.id, value: data["bid2"])
-        bid3 = Bid.create!(card_id: game.cards[game.cards_handled+2].id, player_id: player.id, value: data["bid3"])
+        # bid1 = Bid.create!(card_id: game.cards[game.cards_handled].id, player_id: player.id, value: data["bid1"])
+        # bid2 = Bid.create!(card_id: game.cards[game.cards_handled+1].id, player_id: player.id, value: data["bid2"])
+        # bid3 = Bid.create!(card_id: game.cards[game.cards_handled+2].id, player_id: player.id, value: data["bid3"])
+        bid1 = Bid.create!(card_id: data["card1Id"], player_id: player.id, value: data["bid1"])
+        bid2 = Bid.create!(card_id: data["card2Id"], player_id: player.id, value: data["bid2"])
+        bid3 = Bid.create!(card_id: data["card3Id"], player_id: player.id, value: data["bid3"])
         if game.cards[game.cards_handled].bids.length < 2
             return {complete: false }
         else 
@@ -31,14 +34,12 @@ class BidFacade
             completed_bids.push(completed_bid)                               
         end
         game.cards_handled += 3
-        game.times_last_card_sent = 0
         game.save
         return completed_bids
     end
 
     def self.check_bids(data)
         game = Game.find(data.to_i)
-        # if game.cards[game.cards_handled-1].id == game.last_card_id_sent && game.times_last_card_sent > 1 || game.cards[game.cards_handled-3].bids length < 2
         if game.cards[game.cards_handled-3].bids.length < 2
             return {complete: false }
         else 
@@ -60,10 +61,7 @@ class BidFacade
             completed_bids.push(completed_bid)                               
         end
         game.last_card_id_sent = completed_bids[2].card_id
-        game.times_last_card_sent += 1
         game.save
         return completed_bids
     end
-
-
 end
