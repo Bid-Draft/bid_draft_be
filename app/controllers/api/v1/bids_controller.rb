@@ -7,7 +7,8 @@ class Api::V1::BidsController < ApplicationController
     
     def index
         data = params[:game_id]
-        bid_data = BidFacade.check_bids(data)
+        last_card = params[:last_card]
+        bid_data = BidFacade.check_bids(data, last_card)
         render json: BidSerializer.serialize(bid_data), status: :ok
     end
 end
