@@ -4,10 +4,9 @@ class BidFacade
         player = Player.find_or_create_by(uuid:data["uuid"])
         unless player.games.ids.include?(game.id)
            player.games << game
+           Currency.create(game_id:game.id, player_id:player.id)
+           binding.pry
         end
-        # bid1 = Bid.create!(card_id: game.cards[game.cards_handled].id, player_id: player.id, value: data["bid1"])
-        # bid2 = Bid.create!(card_id: game.cards[game.cards_handled+1].id, player_id: player.id, value: data["bid2"])
-        # bid3 = Bid.create!(card_id: game.cards[game.cards_handled+2].id, player_id: player.id, value: data["bid3"])
         bid1 = Bid.create!(card_id: data["card1Id"], player_id: player.id, value: data["bid1"])
         bid2 = Bid.create!(card_id: data["card2Id"], player_id: player.id, value: data["bid2"])
         bid3 = Bid.create!(card_id: data["card3Id"], player_id: player.id, value: data["bid3"])
@@ -51,7 +50,7 @@ class BidFacade
 
     def self.get_bids(game)
         completed_bids = []
-        game.cards[game.cards_handled-3..game.cards_handled-1].each do |card|
+        game.cards.order("id ASC")[game.cards_handled-3..game.cards_handled-1].each do |card|
             completed_bid = CompletedBid.new(
                                                 card_id: card.id,
                                                 winner_uuid:card.highest_bidder.uuid,
