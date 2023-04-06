@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 2023_04_04_073240) do
   create_table "games", force: :cascade do |t|
     t.string "code"
     t.integer "cards_handled", default: 0
-    t.integer "last_card_id_sent"
-    t.integer "times_last_card_sent"
+    t.string "player_one_uuid"
+    t.string "player_two_uuid"
     t.integer "card_id"
     t.integer "player_id"
     t.index ["card_id"], name: "index_games_on_card_id"
@@ -64,7 +64,6 @@ ActiveRecord::Schema.define(version: 2023_04_04_073240) do
 
   create_table "players", force: :cascade do |t|
     t.string "name"
-    t.integer "currency", default: 300
     t.string "uuid"
     t.integer "game_id"
     t.integer "bid_id"

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'game', to: 'games#show'
       post 'bids', to: 'bids#create'
       get 'bids', to: 'bids#index'
+      post 'players', to: 'players#create'
     end
   end
 end

@@ -4,8 +4,6 @@ class BidFacade
         player = Player.find_or_create_by(uuid:data["uuid"])
         unless player.games.ids.include?(game.id)
            player.games << game
-           Currency.create(game_id:game.id, player_id:player.id)
-           binding.pry
         end
         bid1 = Bid.create!(card_id: data["card1Id"], player_id: player.id, value: data["bid1"])
         bid2 = Bid.create!(card_id: data["card2Id"], player_id: player.id, value: data["bid2"])
@@ -24,6 +22,10 @@ class BidFacade
         game.cards[game.cards_handled..game.cards_handled+2].each do |card|
             unless card.tied_bids?
                 card.highest_bidder.cards << card
+                player = card.highest_bidder
+                currency = player.currencies.find_by(game_id: game.id)
+                currency.value -= card.highest_bid
+                currency.save
             end
             completed_bid = CompletedBid.new(winner_uuid:card.highest_bidder.uuid,
                                                 loser_uuid: card.lowest_bidder.uuid,
@@ -39,11 +41,10 @@ class BidFacade
 
     def self.check_bids(data,last_card)
         game = Game.find(data.to_i)
-
         if game.cards.find(last_card).bids.length < 2 
             return {complete: false }
         else 
-            bids = BidFacade.get_bids(game)
+            bids = BidFacade.get_bids(game, last_card)
             return {complete: true, bids: bids }
         end
     end

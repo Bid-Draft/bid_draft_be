@@ -1,8 +1,6 @@
 class GameFacade
-    def self.display_cards(cards)
-        cards
+    def self.create_game(set,player_one_uuid)
+       game = Game.create(player_one_uuid: player_one_uuid)
+       return game
     end
-
-
-  
   end
