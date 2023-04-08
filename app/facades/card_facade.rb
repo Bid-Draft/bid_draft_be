@@ -1,36 +1,28 @@
 class CardFacade
-    def self.get_cards(set,game_id)
-        cards = []
-        1.times do
-        pack = CardService.get_cards(set)
-        cards.push(pack[:cards])
-        end
-        save_cards(cards,game_id)
-    end
-    
-    def self.get_cards_not_from_pack(game_id)
-        cards = CardService.get_cards_not_from_pack
-        save_cards_not_from_pack(cards,game_id)
-    end
-
-    def self.save_cards(cards,game_id)
-        cards.flatten.flatten.each do |card|
-        Card.create(name: card[:name], image: card[:imageUrl], rarity: card[:rarity], game_id: game_id)
-        end
-    end
-  
-    def self.save_cards_not_from_pack(cards,game_id)
-        cards = cards[:cards]
-        x = 0
-        final_cards = []
-        50.times do 
-            final_cards.push(cards[x])
-            x+=2
-        end
+    def self.get_cards(set)
+            cards = []
+            SeedCard
         
-        final_cards.flatten.flatten.each do |card|
-        Card.create(name: card[:name], image: card[:imageUrl], rarity: card[:rarity], game_id: game_id)
+        
+        commons = SeedCard.where(set: "RTR").where(rarity:"common")
+        11.times do
+            seed = commons.order('RANDOM()').first
+            card = Card.create(name:seed.name, image: seed.image)
+            cards << card
         end
+        uncommons = SeedCard.where(set: "RTR").where(rarity:"uncommon")
+        3.times do
+            seed = uncommons.order('RANDOM()').first
+            card = Card.create(name:seed.name, image: seed.image)
+            cards << card
+        end
+        rares = SeedCard.where(set: "RTR").where(rarity:["rare","mythic"])
+        1.times do
+            seed = rares.order('RANDOM()').first
+            card = Card.create(name:seed.name, image: seed.image)
+            cards << card
+        end
+        cards.shuffle
+        return cards
     end
-
   end

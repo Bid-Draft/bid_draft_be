@@ -1,8 +1,10 @@
 class Api::V1::GamesController < ApplicationController
     def create
         set = params[:set]
+        cards = CardFacade.get_cards(params[:set])
         player_one_uuid = params[:player_one_uuid]
         game = GameFacade.create_game(set,player_one_uuid)
+        game.cards << cards
         render json: GameSerializer.serialize(game), status: :ok
     end 
 

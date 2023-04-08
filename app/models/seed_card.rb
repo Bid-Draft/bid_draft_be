@@ -1,0 +1,3 @@
+class SeedCard < ApplicationRecord
+
+end

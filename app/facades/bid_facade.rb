@@ -44,8 +44,8 @@ class BidFacade
         if game.cards.find(last_card).bids.length < 2 
             return {complete: false }
         else 
-            bids = BidFacade.get_bids(game, last_card)
-            return {complete: true, bids: bids }
+            bids = BidFacade.get_bids(game)
+            return {complete: true, bids: bids}
         end
     end
 

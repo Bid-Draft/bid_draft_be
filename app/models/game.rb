@@ -2,7 +2,6 @@ class Game < ApplicationRecord
   has_many :cards
   has_and_belongs_to_many :players
   before_create :code_create
-  after_create :card_create
 
   def card_create
     Card.create(image:"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=130550&type=card", game_id: self.id, name: "card1")
