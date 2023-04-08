@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  #action cable server
+  # action cable server
   mount ActionCable.server => '/cable'
   namespace :api do
     namespace :v1 do

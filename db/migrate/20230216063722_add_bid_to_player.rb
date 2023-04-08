@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBidToPlayer < ActiveRecord::Migration[5.2]
   def change
     add_column :bids, :player_id, :integer

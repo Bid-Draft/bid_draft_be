@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCardsToPlayers < ActiveRecord::Migration[5.2]
   def change
     add_column :cards, :player_id, :integer
