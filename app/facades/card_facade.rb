@@ -6,7 +6,7 @@ class CardFacade
     SeedCard
 
     commons = SeedCard.where(set: 'RTR').where(rarity: 'common')
-    11.times do
+    5.times do
       seed = commons.order('RANDOM()').first
       card = Card.create(name: seed.name, image: seed.image)
       cards << card

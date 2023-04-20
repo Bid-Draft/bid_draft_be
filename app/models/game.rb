@@ -25,4 +25,8 @@ class Game < ApplicationRecord
 
     self.code = (0...6).map { rand(65..90).chr }.join
   end
+
+  def last_card
+    self.cards.order('id DESC').first
+  end
 end

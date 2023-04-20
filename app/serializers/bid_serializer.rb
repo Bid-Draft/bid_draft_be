@@ -2,8 +2,10 @@
 
 class BidSerializer
   def self.serialize(data)
+    
     {
       "complete": data[:complete].to_s,
+      "draft_over": data[:draft_over],
 
       "bids":
         if data[:complete]

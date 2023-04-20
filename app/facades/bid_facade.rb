@@ -18,7 +18,7 @@ class BidFacade
 
   def self.bid_resolve(game)
     completed_bids = []
-    game.cards[game.cards_handled..game.cards_handled + 2].each do |card|
+    game.cards.order('id ASC')[game.cards_handled..game.cards_handled + 2].each do |card|
       unless card.tied_bids?
         card.highest_bidder.cards << card
         player = card.highest_bidder
@@ -41,25 +41,33 @@ class BidFacade
   def self.check_bids(data, last_card)
     game = Game.find(data.to_i)
     if game.cards.find(last_card).bids.length < 2
+    
       { complete: false }
     else
-      bids = BidFacade.get_bids(game)
-      { complete: true, bids: bids }
+    
+      data = BidFacade.get_bids(game,last_card)
+      { complete: true, bids: data[:completed_bids], draft_over: data[:draft_over]}
     end
   end
 
-  def self.get_bids(game)
-    completed_bids = []
-    game.cards.order('id ASC')[game.cards_handled - 3..game.cards_handled - 1].each do |card|
-      completed_bid = CompletedBid.new(
-        card_id: card.id,
-        winner_uuid: card.highest_bidder.uuid,
-        loser_uuid: card.lowest_bidder.uuid,
-        winner_bid: card.highest_bid,
-        loser_bid: card.lowest_bid
-      )
-      completed_bids.push(completed_bid)
+  def self.get_bids(game, last_card)
+    draft_over = false
+    if game.last_card.id == last_card.to_i
+        draft_over = true
     end
-    completed_bids
+      completed_bids = []
+      game.cards.where(id: last_card.to_i-2..last_card.to_i).each do |card|
+          completed_bid = CompletedBid.new(
+              card_id: card.id,
+              winner_uuid: card.highest_bidder.uuid,
+              loser_uuid: card.lowest_bidder.uuid,
+              winner_bid: card.highest_bid,
+              loser_bid: card.lowest_bid
+          )
+          completed_bids.push(completed_bid)
+          draft_over = false
+      end
+
+    {completed_bids:completed_bids, draft_over: draft_over}
   end
 end
