@@ -7,7 +7,7 @@ module Api
         game = Game.find(params[:game_id])
         return if game.player_one_uuid == params[:uuid]
 
-        game.player_two_uuid = params[:uuid]
+        game. = params[:uuid]
         game.save
       end
     end
