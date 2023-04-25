@@ -1,17 +1,27 @@
-class CardFacade
-    def self.get_cards(set)
-        cards = []
-        1.times do
-        pack = CardService.get_cards(set)
-        cards.push(pack[:cards])
-        end
-        save_cards(cards)
-    end
+# frozen_string_literal: true
 
-    def self.save_cards(cards)
-        cards.flatten.flatten.each do |card|
-            Card.create(name: card[:name], image: card[:imageUrl], rarity: card[:rarity])
-        end
+class CardFacade
+  def self.get_cards(_set)
+    cards = []
+    SeedCard
+
+    commons = SeedCard.where(set: 'RTR').where(rarity: 'common')
+    5.times do
+      seed = commons.order('RANDOM()').first
+      card = Card.create(name: seed.name, image: seed.image)
+      cards << card
     end
-  
+    uncommons = SeedCard.where(set: 'RTR').where(rarity: 'uncommon')
+    3.times do
+      seed = uncommons.order('RANDOM()').first
+      card = Card.create(name: seed.name, image: seed.image)
+      cards << card
+    end
+    rares = SeedCard.where(set: 'RTR').where(rarity: %w[rare mythic])
+    seed = rares.order('RANDOM()').first
+    card = Card.create(name: seed.name, image: seed.image)
+    cards << card
+    cards.shuffle
+    cards
   end
+end
