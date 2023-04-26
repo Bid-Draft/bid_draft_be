@@ -11,6 +11,8 @@ class BidFacade
     if game.cards[game.cards_handled + 2].bids.length < 2
       { complete: false }
     else
+      game.cards_handled += 3
+      game.save
       bids = BidFacade.bid_resolve(game)
       { complete: true, bids: bids }
     end
@@ -18,7 +20,7 @@ class BidFacade
 
   def self.bid_resolve(game)
     completed_bids = []
-    game.cards.order('id ASC')[game.cards_handled..game.cards_handled + 2].each do |card|
+    game.cards.order('id ASC')[game.cards_handled-3..game.cards_handled-1].each do |card|
       unless card.tied_bids?
         card.highest_bidder.cards << card
         player = card.highest_bidder
@@ -33,8 +35,6 @@ class BidFacade
                                        card_id: card.id)
       completed_bids.push(completed_bid)
     end
-    game.cards_handled += 3
-    game.save
     completed_bids
   end
 
