@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class CardSerializer
-  def self.format_cards(cards, game, currencies)
+  def self.format_cards(cards, game, currencies,game_over)
     {
       "gameId": game.id,
+      "gameOver": game_over,
       "currencies": {
         "player_one_uuid": currencies.player_one_uuid,
         "player_two_uuid": currencies.player_two_uuid,

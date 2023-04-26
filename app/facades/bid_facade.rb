@@ -8,7 +8,7 @@ class BidFacade
     bid1 = Bid.create!(card_id: data['card1Id'], player_id: player.id, value: data['bid1'])
     bid2 = Bid.create!(card_id: data['card2Id'], player_id: player.id, value: data['bid2'])
     bid3 = Bid.create!(card_id: data['card3Id'], player_id: player.id, value: data['bid3'])
-    if game.cards[game.cards_handled + 2].bids.length < 2
+    if game.cards.order('id ASC')[game.cards_handled + 2].bids.length < 2
       { complete: false }
     else
       game.cards_handled += 3
@@ -52,19 +52,22 @@ class BidFacade
 
   def self.get_bids(game, last_card)
     draft_over = false
-    draft_over = true if game.last_card.id == last_card.to_i
-    completed_bids = []
-    game.cards.where(id: last_card.to_i - 2..last_card.to_i).each do |card|
-      completed_bid = CompletedBid.new(
-        card_id: card.id,
-        winner_uuid: card.highest_bidder.uuid,
-        loser_uuid: card.lowest_bidder.uuid,
-        winner_bid: card.highest_bid,
-        loser_bid: card.lowest_bid
-      )
-      completed_bids.push(completed_bid)
-      draft_over = false
+
+    if game.cards_handled == 9
+        draft_over = true
     end
+      completed_bids = []
+      game.cards.where(id: last_card.to_i-2..last_card.to_i).each do |card|
+          completed_bid = CompletedBid.new(
+              card_id: card.id,
+              winner_uuid: card.highest_bidder.uuid,
+              loser_uuid: card.lowest_bidder.uuid,
+              winner_bid: card.highest_bid,
+              loser_bid: card.lowest_bid
+          )
+          completed_bids.push(completed_bid)
+      end
+
 
     { completed_bids: completed_bids, draft_over: draft_over }
   end
