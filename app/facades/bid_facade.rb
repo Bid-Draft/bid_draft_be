@@ -8,7 +8,7 @@ class BidFacade
     bid1 = Bid.create!(card_id: data['card1Id'], player_id: player.id, value: data['bid1'])
     bid2 = Bid.create!(card_id: data['card2Id'], player_id: player.id, value: data['bid2'])
     bid3 = Bid.create!(card_id: data['card3Id'], player_id: player.id, value: data['bid3'])
-    if game.cards[game.cards_handled + 2].bids.length < 2
+    if game.cards.order('id ASC')[game.cards_handled + 2].bids.length < 2
       { complete: false }
     else
       game.cards_handled += 3
@@ -52,7 +52,7 @@ class BidFacade
 
   def self.get_bids(game, last_card)
     draft_over = false
-    if game.last_card.id == last_card.to_i
+    if game.cards_handled == 9
         draft_over = true
     end
       completed_bids = []
@@ -65,7 +65,6 @@ class BidFacade
               loser_bid: card.lowest_bid
           )
           completed_bids.push(completed_bid)
-          draft_over = false
       end
 
     {completed_bids:completed_bids, draft_over: draft_over}
