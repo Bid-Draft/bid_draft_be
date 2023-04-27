@@ -27,6 +27,6 @@ class Game < ApplicationRecord
   end
 
   def last_card
-    self.cards.order('id DESC').first
+    cards.order('id DESC').first
   end
 end
