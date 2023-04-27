@@ -52,8 +52,7 @@ class BidFacade
 
   def self.get_bids(game, last_card)
     draft_over = false
-
-    if game.cards_handled == 9
+    if game.cards_handled == 90
         draft_over = true
     end
       completed_bids = []

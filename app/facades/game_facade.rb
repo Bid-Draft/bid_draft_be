@@ -8,7 +8,7 @@ class GameFacade
   end
 
   def self.game_over?(game)
-    if game.cards_handled == 9
+    if game.cards_handled == 90
       return true
     end
   end
