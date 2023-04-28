@@ -13,11 +13,22 @@ class Game < ApplicationRecord
   end
 
   def player_one_cards
-    self.players.where(uuid:self.player_one_uuid).first.cards.where(game_id:self.id)
+    if self.player_one_uuid?
+      cards = Player.where(uuid: self.player_one_uuid).first.cards.where(game_id: self.id)
+    else
+      cards = []
+    end 
+    cards   
   end
   
   def player_two_cards
-    self.players.where(uuid:self.player_two_uuid).first.cards.where(game_id:self.id)
+    if self.player_two_uuid?
+      cards = Player.where(uuid: self.player_two_uuid).first.cards.where(game_id: self.id)
+    else
+      cards = []
+    end 
+    cards   
+    
   end
 
   def code_create

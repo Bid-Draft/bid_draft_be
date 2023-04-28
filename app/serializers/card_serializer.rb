@@ -23,6 +23,7 @@ class CardSerializer
       end
     }
   end
+  
   def self.player_cards_serializer(game)
     {
       "player_one_uuid": game.player_one_uuid,
