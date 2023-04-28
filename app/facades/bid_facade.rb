@@ -46,7 +46,7 @@ class BidFacade
     else
     
       data = BidFacade.get_bids(game,last_card)
-      { complete: true, bids: data[:completed_bids], draft_over: data[:draft_over]}
+      { complete: true, bids: data[:completed_bids], draft_over: data[:draft_over], cards_handled:game.cards_handled}
     end
   end
 

@@ -5,6 +5,7 @@ class CardSerializer
     {
       "gameId": game.id,
       "gameOver": game_over,
+      "cardsHandled": game.cards_handled,
       "currencies": {
         "player_one_uuid": currencies.player_one_uuid,
         "player_two_uuid": currencies.player_two_uuid,
@@ -14,6 +15,26 @@ class CardSerializer
       "cards":
 
       cards.map do |card|
+        {
+          "id": card.id,
+          "image": card.image,
+          "name": card.name
+        }
+      end
+    }
+  end
+  def self.player_cards_serializer(game)
+    {
+      "player_one_uuid": game.player_one_uuid,
+      "player_two_uuid": game.player_two_uuid,
+      "player_one_cards": game.player_one_cards.map do |card|
+        {
+          "id": card.id,
+          "image": card.image,
+          "name": card.name
+        }
+      end,
+      "player_two_cards": game.player_two_cards.map do |card|
         {
           "id": card.id,
           "image": card.image,
