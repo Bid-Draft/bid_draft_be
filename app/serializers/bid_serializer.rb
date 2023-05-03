@@ -5,6 +5,7 @@ class BidSerializer
     {
       "complete": data[:complete].to_s,
       "draft_over": data[:draft_over],
+      "cards_handled": data[:cards_handled],
 
       "bids":
         if data[:complete]

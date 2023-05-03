@@ -17,6 +17,12 @@ module Api
         render json: CardSerializer.format_cards(cards.order('id ASC')[game.cards_handled..game.cards_handled + 2], game,
                                                  currencies,game_over)
       end
+
+      def index_players
+        game = Game.find(params[:id])
+
+        render json: CardSerializer.player_cards_serializer(game)
+      end  
     end
   end
 end
