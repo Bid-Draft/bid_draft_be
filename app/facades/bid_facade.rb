@@ -8,7 +8,7 @@ class BidFacade
     bid1 = Bid.create!(card_id: data['card1Id'], player_id: player.id, value: data['bid1'])
     bid2 = Bid.create!(card_id: data['card2Id'], player_id: player.id, value: data['bid2'])
     bid3 = Bid.create!(card_id: data['card3Id'], player_id: player.id, value: data['bid3'])
-    if game.cards.order('id ASC')[game.cards_handled + 2].bids.length < 2
+    if game.cards.order('id ASC')[game.cards_handled + 2].bids.map { |bid| bid.player_id }.uniq.length < 2
       { complete: false }
     else
       game.cards_handled += 3
@@ -40,7 +40,7 @@ class BidFacade
 
   def self.check_bids(data, last_card)
     game = Game.find(data.to_i)
-    if game.cards.find(last_card).bids.length < 2
+    if game.cards.find(last_card).bids.map { |bid| bid.player_id }.uniq.length < 2
 
       { complete: false }
     else
