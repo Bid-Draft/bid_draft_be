@@ -18,7 +18,7 @@ class CardFacade
         order += 1
         cards << card
       end
-      seed = SeedCard.where(set: set).where(rarity: %w[rare mythic]).first
+      seed = SeedCard.where(set: set).where(rarity: %w[rare mythic]).order('RANDOM()').first
       card = create_card(seed,order)
       order += 1
       cards << card
