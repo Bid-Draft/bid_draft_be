@@ -9,7 +9,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:4000', 'https://proebstel-draft-fe.herokuapp.com/'
+    origins 'http://localhost:4000', 'https://proebstel-draft-fe.herokuapp.com'
 
     resource '*',
              headers: :any,
