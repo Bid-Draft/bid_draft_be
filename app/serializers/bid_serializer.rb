@@ -9,7 +9,7 @@ class BidSerializer
 
       "bids":
         if data[:complete]
-          data[:bids].map do |bid|
+          data[:bids].sort_by { |bid| bid.card_id }.map do |bid|
             {
               card_id: bid.card_id,
               tied: bid.tied,
